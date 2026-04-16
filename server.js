@@ -10,11 +10,6 @@ const multer = require("multer");
 const app = express();
 
 /* =========================
-   PORT（Railway必須仕様）
-========================= */
-const PORT = process.env.PORT;
-
-/* =========================
    ディレクトリ保証
 ========================= */
 const uploadDir = path.join(__dirname, "public/uploads");
