@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Edit</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>作品編集</h1>
+
+<form method="POST" action="/admin/edit/<%= work.id %>">
+
+<p>タイトル</p>
+<input type="text" name="title"
+value="<%= work.title %>">
+
+<p>ジャンル</p>
+<input type="text" name="category"
+value="<%= work.category %>">
+
+<p>年</p>
+<input type="text" name="year"
+value="<%= work.year %>">
+
+<p>ステートメント</p>
+<textarea name="statement"><%= work.statement %></textarea>
+
+<p>
+<button type="submit">保存</button>
+</p>
+
+</form>
+
+<p><a href="/admin">戻る</a></p>
+
+</body>
+</html>

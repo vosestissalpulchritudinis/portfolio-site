@@ -1,0 +1,331 @@
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:0;
+  background:#efeee9;
+  color:#111;
+  font-family:
+    "Yu Gothic",
+    "Hiragino Sans",
+    sans-serif;
+  line-height:1.95;
+  letter-spacing:0.03em;
+}
+
+/* ナビ */
+
+nav{
+  padding:28px 40px;
+  border-bottom:1px solid #ddd;
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap;
+}
+
+nav a{
+  text-decoration:none;
+  color:#111;
+  font-size:14px;
+}
+
+nav a:hover{
+  opacity:0.55;
+}
+
+/* 全体幅 */
+
+body > *:not(nav){
+  max-width:980px;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:40px;
+  padding-right:40px;
+}
+
+/* 見出し */
+
+h1{
+  font-size:52px;
+  font-weight:400;
+  margin-top:70px;
+  margin-bottom:40px;
+  letter-spacing:0.10em;
+  font-family:
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    serif;
+}
+
+h2{
+  font-size:24px;
+  font-weight:400;
+  margin-top:40px;
+  margin-bottom:16px;
+  letter-spacing:0.04em;
+}
+
+p{
+  margin:0 0 18px 0;
+}
+
+/* 作品カード */
+
+div{
+  margin-bottom:72px;
+  padding-bottom:24px;
+  border-bottom:1px solid #ddd;
+}
+
+/* 画像 */
+
+img{
+  display:block;
+  width:100%;
+  max-width:760px;
+  height:auto;
+  margin-bottom:20px;
+}
+
+/* リンク */
+
+a{
+  color:#111;
+}
+
+a:hover{
+  opacity:0.6;
+}
+
+/* フォーム */
+
+input,
+textarea,
+button{
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  border:1px solid #bbb;
+  background:white;
+  margin-bottom:18px;
+}
+
+textarea{
+  min-height:180px;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:hover{
+  background:#eee;
+}
+
+/* 管理画面 */
+
+hr{
+  border:none;
+  border-top:1px solid #ddd;
+  margin:50px 0;
+}
+
+/* モバイル */
+
+@media(max-width:700px){
+
+  body > *:not(nav){
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+  nav{
+    padding:20px;
+    gap:16px;
+  }
+
+  h1{
+    font-size:36px;
+    margin-top:40px;
+  }
+
+  h2{
+    font-size:22px;
+  }
+}
+
+/* Works Grid */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:42px 28px;
+  margin-top:50px;
+}
+
+.card{
+  display:block;
+  text-decoration:none;
+  color:#111;
+  border-bottom:none;
+}
+
+.card img{
+  width:100%;
+  aspect-ratio:1 / 1;
+  object-fit:cover;
+  margin-bottom:14px;
+}
+
+.card h2{
+  font-size:18px;
+  margin:0 0 8px 0;
+}
+
+.card p{
+  font-size:13px;
+  opacity:0.7;
+  margin:0;
+}
+
+.card:hover{
+  opacity:0.7;
+}
+
+/* responsive */
+
+@media(max-width:900px){
+  .grid{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+@media(max-width:640px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* About */
+
+section{
+  margin-top:70px;
+  margin-bottom:70px;
+}
+
+section p{
+  max-width:760px;
+}
+
+section h2{
+  margin-bottom:24px;
+  font-size:20px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+/* ===== Reader UI ===== */
+
+.index-note{
+  font-size:13px;
+  opacity:0.6;
+  margin-bottom:40px;
+  letter-spacing:0.08em;
+}
+
+.reader{
+  display:flex;
+  flex-direction:column;
+  gap:60px;
+  margin-top:40px;
+}
+
+.entry{
+  text-decoration:none;
+  color:#111;
+  display:block;
+  padding-bottom:40px;
+  border-bottom:1px solid #ddd;
+}
+
+.entry .meta{
+  display:flex;
+  gap:20px;
+  font-size:14px;
+  opacity:0.75;
+  margin-bottom:18px;
+  letter-spacing:0.05em;
+}
+
+.entry .title{
+  font-weight:500;
+}
+
+.entry img{
+  width:100%;
+  max-width:680px;
+  margin-top:18px;
+  filter:grayscale(10%);
+  opacity:0.95;
+}
+
+.entry:hover{
+  opacity:0.7;
+}
+
+/* ===== Work Reader Page ===== */
+
+.reader-page{
+  max-width:760px;
+  margin:0 auto;
+  padding:60px 20px 120px;
+}
+
+.work-header h1{
+  font-size:42px;
+  font-weight:400;
+  margin-bottom:10px;
+  letter-spacing:0.08em;
+}
+
+.work-header .meta{
+  font-size:14px;
+  opacity:0.6;
+  letter-spacing:0.05em;
+  margin-bottom:40px;
+}
+
+.work-image{
+  margin:60px 0;
+}
+
+.work-image img{
+  width:100%;
+  height:auto;
+}
+
+.statement{
+  margin-top:60px;
+}
+
+.statement h2{
+  font-size:16px;
+  opacity:0.7;
+  margin-bottom:20px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+
+.statement p{
+  font-size:16px;
+  line-height:2.0;
+  white-space:pre-line;
+}
+
+.work-footer{
+  margin-top:80px;
+  font-size:14px;
+  opacity:0.7;
+}

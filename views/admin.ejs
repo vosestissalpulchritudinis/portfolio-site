@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>管理画面</h1>
+
+<h2>作品追加</h2>
+
+<form action="/admin/add" method="POST" enctype="multipart/form-data">
+
+<p>タイトル</p>
+<input type="text" name="title">
+
+<p>ジャンル</p>
+<input type="text" name="category">
+
+<p>年</p>
+<input type="text" name="year">
+
+<p>ステートメント</p>
+<textarea name="statement"></textarea>
+
+<p>画像</p>
+<input type="file" name="image">
+
+<p>
+<button type="submit">追加する</button>
+</p>
+
+</form>
+
+<hr>
+
+<h2>現在の作品</h2>
+
+<% works.forEach(work => { %>
+<div>
+
+<p><strong><%= work.title %></strong></p>
+<p><%= work.category %> / <%= work.year %></p>
+
+<p>
+<a href="/admin/edit/<%= work.id %>">編集</a>
+｜
+<a href="/admin/delete/<%= work.id %>"
+onclick="return confirm('削除しますか？')">
+削除
+</a>
+</p>
+
+</div>
+<% }) %>
+
+<p><a href="/works">公開作品ページを見る</a></p>
+
+</body>
+</html>

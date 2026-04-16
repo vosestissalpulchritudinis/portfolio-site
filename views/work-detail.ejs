@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title><%= work.title %></title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav>
+<a href="/">Home</a>
+<a href="/works">Works</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
+</nav>
+
+<article class="reader-page">
+
+<header class="work-header">
+
+<h1><%= work.title %></h1>
+
+<p class="meta">
+<%= work.category %> / <%= work.year %>
+</p>
+
+</header>
+
+<% if(work.image){ %>
+<figure class="work-image">
+<img src="/uploads/<%= work.image %>">
+</figure>
+<% } %>
+
+<section class="statement">
+
+<h2>Statement</h2>
+
+<p><%= work.statement %></p>
+
+</section>
+
+<footer class="work-footer">
+
+<a href="/works">← Back to index</a>
+
+</footer>
+
+</article>
+
+</body>
+</html>
