@@ -162,6 +162,6 @@ app.post("/admin/add", auth, upload.single("image"), (req, res) => {
 /* =========================
    start（重要）
 ========================= */
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("Server running on", PORT);
+app.listen(process.env.PORT, "0.0.0.0", () => {
+  console.log("Server running on", process.env.PORT);
 });
