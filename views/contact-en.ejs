@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav>
+<a href="/">JP</a>
+<a href="/en">EN</a>
+<a href="/en/works">Works</a>
+<a href="/en/about">About</a>
+<a href="/en/contact">Contact</a>
+</nav>
+
+<h1>Contact</h1>
+
+<section>
+  <h2>Email</h2>
+  <% if (email) { %>
+    <p><a href="mailto:<%= email %>"><%= email %></a></p>
+  <% } else { %>
+    <p>No email listed.</p>
+  <% } %>
+</section>
+
+<section>
+  <h2>SNS</h2>
+  <% if (snsLinks && snsLinks.length) { %>
+    <ul>
+      <% snsLinks.forEach(function(item) { %>
+        <li><a href="<%= item.url %>" target="_blank" rel="noreferrer"><%= item.label %></a></li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No social links listed.</p>
+  <% } %>
+</section>
+
+</body>
+</html>

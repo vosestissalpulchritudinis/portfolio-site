@@ -2,23 +2,35 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Contact</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <nav>
-<a href="/">JP</a>
-<a href="/en">EN</a>
+<a href="/">Home</a>
 <a href="/works">Works</a>
 <a href="/about">About</a>
-<a href="/contact">Contact</a>
 </nav>
 
 <h1>Contact</h1>
 
-<p>mail@example.com</p>
-<p>Instagram</p>
+<p>Email: <%= email %></p>
+
+<h2>SNS</h2>
+
+<ul>
+  <% if (snsLinks && snsLinks.length) { %>
+    <% snsLinks.forEach(link => { %>
+      <li>
+        <a href="<%= link.url %>" target="_blank">
+          <%= link.label %>
+        </a>
+      </li>
+    <% }) %>
+  <% } %>
+</ul>
 
 </body>
 </html>

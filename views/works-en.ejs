@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,38 +9,20 @@
 <body>
 
 <nav>
-<a href="/">Home</a>
-<a href="/works">Works</a>
-<a href="/about">About</a>
-<a href="/contact">Contact</a>
+<a href="/en">Home</a>
+<a href="/en/works">Works</a>
+<a href="/en/about">About</a>
+<a href="/en/contact">Contact</a>
 </nav>
 
 <h1>Works</h1>
 
-<p class="index-note">
-Archive index / reading interface
-</p>
-
-<div class="reader">
-
-<% works.forEach(work => { %>
-
-<a class="entry" href="/works/<%= work.id %>">
-
-  <div class="meta">
-    <span class="title"><%= work.title %></span>
-    <span class="category"><%= work.category %></span>
-    <span class="year"><%= work.year %></span>
-  </div>
-
-  <% if(work.image){ %>
-    <img src="/uploads/<%= work.image %>">
-  <% } %>
-
-</a>
-
-<% }) %>
-
+<div class="grid">
+  <% works.forEach(work => { %>
+    <a href="/works/<%= work.id %>">
+      <h3><%= work.title %></h3>
+    </a>
+  <% }) %>
 </div>
 
 </body>

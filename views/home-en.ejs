@@ -11,36 +11,20 @@
 <nav>
 <a href="/">JP</a>
 <a href="/en">EN</a>
-<a href="/works">Works</a>
-<a href="/about">About</a>
-<a href="/contact">Contact</a>
+<a href="/en/works">Works</a>
+<a href="/en/about">About</a>
+<a href="/en/contact">Contact</a>
 </nav>
 
-<h1>ICHINO TAICHI</h1>
-
-<p style="max-width:720px;font-size:20px;">
-Exploring forms of expression after the collapse of boundaries between artwork, author, and viewer.
-</p>
-
-<h2 style="margin-top:80px;">Recent Works</h2>
+<h1>Portfolio</h1>
 
 <div class="grid">
-
-<% works.forEach(work => { %>
-
-<a class="card" href="/works/<%= work.id %>">
-
-<% if(work.image){ %>
-<img src="/uploads/<%= work.image %>">
-<% } %>
-
-<h2><%= work.title %></h2>
-<p><%= work.category %> / <%= work.year %></p>
-
-</a>
-
-<% }) %>
-
+  <% works.forEach(work => { %>
+    <a href="/works/<%= work.id %>">
+      <h3><%= work.title %></h3>
+      <p><%= work.category %></p>
+    </a>
+  <% }) %>
 </div>
 
 </body>

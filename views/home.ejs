@@ -13,54 +13,33 @@
 <a href="/works">Works</a>
 <a href="/about">About</a>
 <a href="/contact">Contact</a>
+<a href="/en">EN</a>
 </nav>
 
+<h1>Portfolio</h1>
+
+<p><%= concept %></p>
+
 <section>
+  <h2>Recent Works</h2>
 
-<h1>ICHINO TAICHI</h1>
-
-<p style="max-width:700px; font-size:20px;">
-<%= concept %>
-</p>
-
-</section>
-
-<section style="margin-top:80px;">
-
-<h2>Recent Works</h2>
-
-<% works.forEach(work => { %>
-
-<div>
-
-<% if(work.image){ %>
-<img src="/uploads/<%= work.image %>">
-<% } %>
-
-<h2>
-<a href="/works/<%= work.id %>">
-<%= work.title %>
-</a>
-</h2>
-
-<p><%= work.category %> / <%= work.year %></p>
-
-</div>
-
-<% }) %>
-
-</section>
-
-<section style="margin-top:60px; margin-bottom:100px;">
-
-<p>
-<a href="/works">View Archive →</a>
-</p>
-
-<p>
-<a href="/about">Read Statement →</a>
-</p>
-
+  <div class="grid">
+    <% if (works && works.length) { %>
+      <% works.forEach(work => { %>
+        <a href="/works/<%= work.id %>" class="card">
+          <div>
+            <% if (work.image) { %>
+              <img src="/uploads/<%= work.image %>" style="max-width:100%">
+            <% } %>
+            <h3><%= work.title %></h3>
+            <p><%= work.category %> / <%= work.year %></p>
+          </div>
+        </a>
+      <% }) %>
+    <% } else { %>
+      <p>No works.</p>
+    <% } %>
+  </div>
 </section>
 
 </body>

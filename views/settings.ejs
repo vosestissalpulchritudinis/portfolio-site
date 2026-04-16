@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Settings</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav>
+<a href="/admin">Admin</a>
+<a href="/admin/settings">Settings</a>
+<a href="/">Site</a>
+</nav>
+
+<h1>Site Settings</h1>
+
+<form action="/admin/settings" method="POST">
+  <p>Home Concept</p>
+  <textarea name="homeConcept" rows="4"><%= homeConcept || "" %></textarea>
+
+  <p>About Profile</p>
+  <textarea name="aboutProfile" rows="6"><%= aboutProfile || "" %></textarea>
+
+  <p>About Statement</p>
+  <textarea name="aboutStatement" rows="8"><%= aboutStatement || "" %></textarea>
+
+  <p>Contact Email</p>
+  <input type="email" name="contactEmail" value="<%= contactEmail || "" %>">
+
+  <p>SNS Links</p>
+  <textarea name="snsLinks" rows="6" placeholder="Instagram | https://...&#10;X | https://..."><%= snsLinksText || "" %></textarea>
+
+  <p><button type="submit">Save</button></p>
+</form>
+
+</body>
+</html>

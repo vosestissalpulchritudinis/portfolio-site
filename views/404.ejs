@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title><%= work.title %></title>
+<title>404</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -11,17 +11,12 @@
 <nav>
 <a href="/">Home</a>
 <a href="/works">Works</a>
+<a href="/about">About</a>
+<a href="/contact">Contact</a>
 </nav>
 
-<h1><%= work.title %></h1>
-
-<p><%= work.category %> / <%= work.year %></p>
-
-<% if (work.image) { %>
-  <img src="/uploads/<%= work.image %>" style="max-width:100%">
-<% } %>
-
-<pre><%= work.statement %></pre>
+<h1>404</h1>
+<p>Page not found.</p>
 
 </body>
 </html>

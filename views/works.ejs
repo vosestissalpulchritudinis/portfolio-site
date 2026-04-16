@@ -9,8 +9,7 @@
 <body>
 
 <nav>
-<a href="/">JP</a>
-<a href="/en">EN</a>
+<a href="/">Home</a>
 <a href="/works">Works</a>
 <a href="/about">About</a>
 <a href="/contact">Contact</a>
@@ -18,33 +17,16 @@
 
 <h1>Works</h1>
 
-<p>
-<a href="/works">All</a> /
-<a href="/works/category/Painting">Painting</a> /
-<a href="/works/category/Installation">Installation</a> /
-<a href="/works/category/Text">Text</a> /
-<a href="/works/category/汀">汀</a> /
-<a href="/works/category/Zauberberg">Zauberberg</a>
-</p>
-
 <div class="grid">
-
-<% works.forEach(work => { %>
-
-<a class="card" href="/works/<%= work.id %>">
-
-  <% if(work.image){ %>
-    <img src="/uploads/<%= work.image %>">
-  <% } %>
-
-  <h2><%= work.title %></h2>
-
-  <p><%= work.category %> / <%= work.year %></p>
-
-</a>
-
-<% }) %>
-
+  <% works.forEach(work => { %>
+    <a href="/works/<%= work.id %>" class="card">
+      <% if (work.image) { %>
+        <img src="/uploads/<%= work.image %>">
+      <% } %>
+      <h3><%= work.title %></h3>
+      <p><%= work.category %> / <%= work.year %></p>
+    </a>
+  <% }) %>
 </div>
 
 </body>
