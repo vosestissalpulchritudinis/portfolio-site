@@ -8,7 +8,11 @@ const Database = require("better-sqlite3");
 const multer = require("multer");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+/* =========================
+   PORT（Railway必須仕様）
+========================= */
+const PORT = process.env.PORT;
 
 /* =========================
    ディレクトリ保証
@@ -25,7 +29,7 @@ if (!fs.existsSync(dbDir)) {
 }
 
 /* =========================
-   DB（Railway対応）
+   SQLite
 ========================= */
 const db = new Database(path.join(dbDir, "portfolio.db"));
 
@@ -41,7 +45,7 @@ CREATE TABLE IF NOT EXISTS works (
 `).run();
 
 /* =========================
-   multer（画像アップロード）
+   multer
 ========================= */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -55,7 +59,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* =========================
-   Express基本設定
+   view / static
 ========================= */
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -63,6 +67,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+/* =========================
+   session
+========================= */
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "secret-key",
@@ -72,18 +79,15 @@ app.use(
 );
 
 /* =========================
-   認証
+   auth
 ========================= */
 function auth(req, res, next) {
-  if (req.session.login) {
-    next();
-  } else {
-    res.redirect("/admin/login");
-  }
+  if (req.session.login) next();
+  else res.redirect("/admin/login");
 }
 
 /* =========================
-   公開ページ
+   routes
 ========================= */
 
 app.get("/", (req, res) => {
@@ -105,14 +109,6 @@ app.get("/works", (req, res) => {
   res.render("works", { works });
 });
 
-app.get("/works/category/:name", (req, res) => {
-  const works = db.prepare(
-    "SELECT * FROM works WHERE category = ? ORDER BY id DESC"
-  ).all(req.params.name);
-
-  res.render("works", { works });
-});
-
 app.get("/works/:id", (req, res) => {
   const work = db.prepare(
     "SELECT * FROM works WHERE id = ?"
@@ -121,16 +117,8 @@ app.get("/works/:id", (req, res) => {
   res.render("work-detail", { work });
 });
 
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-app.get("/contact", (req, res) => {
-  res.render("contact");
-});
-
 /* =========================
-   ログイン
+   admin
 ========================= */
 
 app.get("/admin/login", (req, res) => {
@@ -138,20 +126,13 @@ app.get("/admin/login", (req, res) => {
 });
 
 app.post("/admin/login", (req, res) => {
-  if (
-    req.body.id === "admin" &&
-    req.body.pass === "1234"
-  ) {
+  if (req.body.id === "admin" && req.body.pass === "1234") {
     req.session.login = true;
     res.redirect("/admin");
   } else {
     res.send("ログイン失敗");
   }
 });
-
-/* =========================
-   管理画面
-========================= */
 
 app.get("/admin", auth, (req, res) => {
   const works = db.prepare(
@@ -165,8 +146,7 @@ app.post("/admin/add", auth, upload.single("image"), (req, res) => {
   const filename = req.file ? req.file.filename : "";
 
   db.prepare(`
-    INSERT INTO works
-    (title, category, year, statement, image)
+    INSERT INTO works (title, category, year, statement, image)
     VALUES (?, ?, ?, ?, ?)
   `).run(
     req.body.title,
@@ -179,72 +159,9 @@ app.post("/admin/add", auth, upload.single("image"), (req, res) => {
   res.redirect("/admin");
 });
 
-app.get("/admin/delete/:id", auth, (req, res) => {
-  db.prepare("DELETE FROM works WHERE id = ?")
-    .run(req.params.id);
-
-  res.redirect("/admin");
-});
-
-app.get("/admin/edit/:id", auth, (req, res) => {
-  const work = db.prepare(
-    "SELECT * FROM works WHERE id = ?"
-  ).get(req.params.id);
-
-  res.render("edit", { work });
-});
-
-app.post("/admin/edit/:id", auth, (req, res) => {
-  db.prepare(`
-    UPDATE works
-    SET title=?,
-        category=?,
-        year=?,
-        statement=?
-    WHERE id=?
-  `).run(
-    req.body.title,
-    req.body.category,
-    req.body.year,
-    req.body.statement,
-    req.params.id
-  );
-
-  res.redirect("/admin");
-});
-
 /* =========================
-   英語ページ
+   start（重要）
 ========================= */
-
-app.get("/en", (req, res) => {
-  const works = db.prepare(
-    "SELECT * FROM works ORDER BY id DESC LIMIT 3"
-  ).all();
-
-  res.render("home-en", { works });
-});
-
-app.get("/en/about", (req, res) => {
-  res.render("about-en");
-});
-
-app.get("/en/contact", (req, res) => {
-  res.render("contact-en");
-});
-
-app.get("/en/works", (req, res) => {
-  const works = db.prepare(
-    "SELECT * FROM works ORDER BY id DESC"
-  ).all();
-
-  res.render("works-en", { works });
-});
-
-/* =========================
-   起動
-========================= */
-
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("Server running on", PORT);
 });
