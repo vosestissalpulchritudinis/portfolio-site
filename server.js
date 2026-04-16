@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const session = require("express-session");
 const Database = require("better-sqlite3");
 const multer = require("multer");
@@ -9,8 +10,24 @@ const multer = require("multer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* DB */
-const db = new Database("portfolio.db");
+/* =========================
+   ディレクトリ保証
+========================= */
+const uploadDir = path.join(__dirname, "public/uploads");
+const dbDir = path.join(__dirname, "data");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
+
+/* =========================
+   DB（Railway対応）
+========================= */
+const db = new Database(path.join(dbDir, "portfolio.db"));
 
 db.prepare(`
 CREATE TABLE IF NOT EXISTS works (
@@ -22,17 +39,24 @@ CREATE TABLE IF NOT EXISTS works (
   image TEXT
 )
 `).run();
+
+/* =========================
+   multer（画像アップロード）
+========================= */
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "public/uploads");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
 
 const upload = multer({ storage });
 
+/* =========================
+   Express基本設定
+========================= */
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -41,13 +65,15 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "secret-key",
+    secret: process.env.SESSION_SECRET || "secret-key",
     resave: false,
     saveUninitialized: false
   })
 );
 
-/* 認証 */
+/* =========================
+   認証
+========================= */
 function auth(req, res, next) {
   if (req.session.login) {
     next();
@@ -56,7 +82,9 @@ function auth(req, res, next) {
   }
 }
 
-/* 公開ページ */
+/* =========================
+   公開ページ
+========================= */
 
 app.get("/", (req, res) => {
   const works = db.prepare(
@@ -70,7 +98,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/works", (req, res) => {
-  const works = db.prepare("SELECT * FROM works ORDER BY id DESC").all();
+  const works = db.prepare(
+    "SELECT * FROM works ORDER BY id DESC"
+  ).all();
+
   res.render("works", { works });
 });
 
@@ -98,7 +129,9 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
-/* ログイン */
+/* =========================
+   ログイン
+========================= */
 
 app.get("/admin/login", (req, res) => {
   res.render("login");
@@ -116,10 +149,15 @@ app.post("/admin/login", (req, res) => {
   }
 });
 
-/* 管理画面 */
+/* =========================
+   管理画面
+========================= */
 
 app.get("/admin", auth, (req, res) => {
-  const works = db.prepare("SELECT * FROM works ORDER BY id DESC").all();
+  const works = db.prepare(
+    "SELECT * FROM works ORDER BY id DESC"
+  ).all();
+
   res.render("admin", { works });
 });
 
@@ -141,7 +179,6 @@ app.post("/admin/add", auth, upload.single("image"), (req, res) => {
   res.redirect("/admin");
 });
 
-/* 削除 */
 app.get("/admin/delete/:id", auth, (req, res) => {
   db.prepare("DELETE FROM works WHERE id = ?")
     .run(req.params.id);
@@ -149,7 +186,6 @@ app.get("/admin/delete/:id", auth, (req, res) => {
   res.redirect("/admin");
 });
 
-/* 編集画面 */
 app.get("/admin/edit/:id", auth, (req, res) => {
   const work = db.prepare(
     "SELECT * FROM works WHERE id = ?"
@@ -158,7 +194,6 @@ app.get("/admin/edit/:id", auth, (req, res) => {
   res.render("edit", { work });
 });
 
-/* 編集保存 */
 app.post("/admin/edit/:id", auth, (req, res) => {
   db.prepare(`
     UPDATE works
@@ -178,7 +213,9 @@ app.post("/admin/edit/:id", auth, (req, res) => {
   res.redirect("/admin");
 });
 
-/* English pages */
+/* =========================
+   英語ページ
+========================= */
 
 app.get("/en", (req, res) => {
   const works = db.prepare(
@@ -204,6 +241,10 @@ app.get("/en/works", (req, res) => {
   res.render("works-en", { works });
 });
 
+/* =========================
+   起動
+========================= */
+
 app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
+  console.log(`Server running on ${PORT}`);
 });
